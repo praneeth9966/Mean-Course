@@ -1,6 +1,30 @@
 export interface Post {
     id: string;
-    title: string;
-    content: string;
-    imagePath: string;
+    // title: string;
+    // content: string;
+    // imagePath: string;
+    StartDate: string;
+    EndDate: string;
+    PlannedBandwidth: string;
+    ActualBandwidth:string;
+    UserStory: string;
+    StoryType: string;
+    StoryStatus: string;
+    activity: string;
+    ActivityStatus: string;
+    myDate: string;
+    PlannedStoryPoint: string;
+    ActualStoryPoint: string;
+    ConsumedSP: string;
+    variance: string;
+    StoryMaturity: string;
+    ActivityStartDate: string;
+    ActivityEndDate: string;
+    Resource: string;
+    PercentageCompletion: string;
+    AccountableHour: string;
+    ReasonOfVariance: string;
+    CorrectiveMeasures: string;
+    RiskIfAny: string;
+    creator: string;
 }

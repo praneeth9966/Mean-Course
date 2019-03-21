@@ -2,21 +2,286 @@
 <mat-accordion multi="true" *ngIf="posts.length > 0 && !isLoading">
   <mat-expansion-panel *ngFor="let post of posts">
     <mat-expansion-panel-header>
-      {{post.title}}
+      {{post.UserStory}}
     </mat-expansion-panel-header>
-    <div class="post-image">
-      <img [src]="post.imagePath" [alt]="post.title">
-    </div>
-    <p>{{post.content}}</p>
-    <mat-action-row>
-        <!-- <a mat-button color="accent" [routerLink]="['/eidt',post.id]">EDIT</a> -->
+    
+    <mat-grid-list class="grid" cols="5" rowHeight="3:1" [gutterSize]="'10px'">
+  
+        <mat-grid-tile>
+          <mat-form-field>
+            <input 
+            matInput 
+            type="date"
+            [(ngModel)]="post.StartDate"
+            placeholder="Start Date"
+            [readonly]="!editable">
+          </mat-form-field>
+        </mat-grid-tile>
+      
+     <mat-grid-tile>
+          <mat-form-field>
+              <input 
+              matInput 
+              type="date"
+              [(ngModel)]="post.EndDate"
+              placeholder="End Date"
+              [readonly]="!editable">
+            </mat-form-field>
+        </mat-grid-tile>
+      
+        <mat-grid-tile>
+          <mat-form-field>
+            <input 
+            matInput 
+            type="number"
+            [(ngModel)]="post.PlannedBandwidth"
+            placeholder="Planned Bandwidth"
+            [readonly]="!editable">
+          </mat-form-field>
+        </mat-grid-tile>
+      
+        <mat-grid-tile>
+          <mat-form-field>
+            <input 
+            matInput 
+            type="number"
+            [(ngModel)]="post.ActualBandwidth"
+            placeholder="Actual Bandwidth"
+            [readonly]="!editable">
+          </mat-form-field>
+        </mat-grid-tile>
+      
+        <mat-grid-tile>
+            <mat-form-field>
+                <input 
+                matInput 
+                type="text"
+                placeholder="User Story"
+                [(ngModel)]="post.UserStory"
+                [readonly]="!editable">
+              </mat-form-field>
+        </mat-grid-tile>
+      
+        <mat-grid-tile>
+            <mat-form-field>
+                <mat-label>Story Type</mat-label>
+                <select  matNativeControl required [(ngModel)]="post.StoryType" [disabled]="butDisabled">
+                          <option value="bug">Bug</option>
+                          <option value="story">Story</option>
+                          <option value="task">Task</option>
+                          <option value="subtask">Sub-task</option>
+                          <option value="epic">Epic</option>
+                </select>
+            </mat-form-field>
+        </mat-grid-tile>
+      
+        <mat-grid-tile>
+            <mat-form-field>
+                <mat-label>Story Status</mat-label>
+                <select matNativeControl required [(ngModel)]="post.StoryStatus" [disabled]="butDisabled">
+                  <option value="done">Done</option>
+                  <option value="uat">UAT</option>
+                  <option value="peerReview">Peer Review</option>
+                  <option value="deskCheck">Desk check</option>
+                  <option value="open">Open</option>
+                  <option value="analysis">Analysis</option>
+                  <option value="readyForDev">Ready for dev</option>
+                  <option value="inProgress">In Progress</option>
+                </select>
+            </mat-form-field>
+        </mat-grid-tile>
+      
+        <mat-grid-tile>
+            <mat-form-field>
+                <mat-label>Activity/Task</mat-label>
+                <select matNativeControl required  [(ngModel)]="post.activity" [disabled]="butDisabled">
+                  <option value="anlysis">Anlysis</option>
+                          <option value="build">Build</option>
+                          <option value="unitTesting">Unit Testing</option>
+                          <option value="testScriptCreation">Test Script Creation</option>
+                          <option value="testing">Testing</option>
+                          <option value="rework">Rework</option>
+                          <option value="idle">Idle</option>
+                          <option value="deployment">Deployment</option>
+                </select>
+            </mat-form-field>
+        </mat-grid-tile>
+      
+           <mat-grid-tile>
+            <mat-form-field>
+                <mat-label>Activity Status</mat-label>
+                <select matNativeControl required  [(ngModel)]="post.ActivityStatus" [disabled]="butDisabled">
+                  <option value="anlysis">Anlysis</option>
+                  <option value="notStarted">Not Started</option>
+                  <option value="awaitingClarification">Awaiting Clarification</option>
+                  <option value="inProgress">In Progress</option>
+                  <option value="complete">Complete</option>
+                </select>
+            </mat-form-field>
+        </mat-grid-tile>
+      
+       <mat-grid-tile>
+            <mat-form-field>
+                <input 
+                matInput 
+                type="date"
+                [(ngModel)]="post.myDate"
+                placeholder="Date"
+                [readonly]="!editable">
+              </mat-form-field>
+        </mat-grid-tile>
+      
+      <mat-grid-tile>
+            <mat-form-field>
+                <input 
+                matInput 
+                type="number"
+                [(ngModel)]="post.PlannedStoryPoint"
+                placeholder="Planned Story Point"
+                [readonly]="!editable">
+              </mat-form-field>
+        </mat-grid-tile>
+      
+        <mat-grid-tile>
+            <mat-form-field>
+                <input 
+                matInput 
+                type="number"
+                [(ngModel)]="post.ActualStoryPoint"
+                placeholder="ActualStoryPoint"
+                [readonly]="!editable">
+              </mat-form-field>
+        </mat-grid-tile>
+      
+        <mat-grid-tile>
+            <mat-form-field>
+                <input 
+                matInput 
+                type="number"
+                [(ngModel)]="post.ConsumedSP"
+                placeholder="ConsumedSP"
+                [readonly]="!editable">
+              </mat-form-field>
+        </mat-grid-tile>
+      
+        <mat-grid-tile>
+            <mat-form-field>
+                <input 
+                matInput 
+                type="number"
+                [(ngModel)]="post.variance"
+                placeholder="Variance(%)"
+                [readonly]="!editable">
+              </mat-form-field>
+        </mat-grid-tile>
+      
+         <mat-grid-tile>
+            <mat-form-field>
+                <mat-label>Story Maturity</mat-label>
+                <select matNativeControl required [(ngModel)]="post.StoryMaturity" [disabled]="butDisabled">
+                  <option value="yes">Yes</option>
+                  <option value="no">No</option>
+                </select>
+            </mat-form-field>
+        </mat-grid-tile>
+      
+        <mat-grid-tile>
+            <mat-form-field>
+                <input 
+                matInput 
+                type="date"
+                [(ngModel)]="post.ActivityStartDate"
+                placeholder="Activity Start Date"
+                [readonly]="!editable">
+              </mat-form-field>
+        </mat-grid-tile>
+      
+        <mat-grid-tile>
+            <mat-form-field>
+                <input 
+                matInput 
+                type="date"
+                [(ngModel)]="post.ActivityEndDate"
+                placeholder="Activity End Date"
+                [readonly]="!editable">
+              </mat-form-field>
+        </mat-grid-tile>
+      
+        <mat-grid-tile>
+            <mat-form-field>
+                <input 
+                matInput 
+                type="text"
+                [(ngModel)]="post.Resource" 
+                placeholder="Resource"
+                [readonly]="!editable">
+              </mat-form-field>
+        </mat-grid-tile>
+      
+        <mat-grid-tile>
+            <mat-form-field>
+                <input 
+                matInput 
+                type="number"
+                [(ngModel)]="post.PercentageCompletion" 
+                placeholder="PercentageCompletion"
+                [readonly]="!editable">
+              </mat-form-field>
+        </mat-grid-tile>
+      
+        <mat-grid-tile>
+            <mat-form-field>
+                <mat-label>Accountable Hour</mat-label>
+                <select matNativeControl required [(ngModel)]="post.AccountableHour" [disabled]="butDisabled">
+                  <option value="yes">Yes</option>
+                  <option value="no">No</option>
+                </select>
+            </mat-form-field>
+        </mat-grid-tile>
+      
+        <mat-grid-tile>
+            <mat-form-field>
+                <input 
+                matInput 
+                type="text"
+                [(ngModel)]="post.ReasonOfVariance" 
+                placeholder="ReasonOfVariance"
+                [readonly]="!editable">
+              </mat-form-field>
+        </mat-grid-tile>
+      
+        <mat-grid-tile>
+            <mat-form-field>
+                <input 
+                matInput 
+                type="text"
+                [(ngModel)]="post.CorrectiveMeasures" 
+                placeholder="CorrectiveMeasures"
+                [readonly]="!editable">
+              </mat-form-field>
+        </mat-grid-tile>
+      
+        <mat-grid-tile>
+            <mat-form-field>
+                <input 
+                matInput 
+                type="text"
+                [(ngModel)]="post.RiskIfAny" 
+                placeholder="RiskIfAny"
+                [readonly]="!editable">
+              </mat-form-field>
+        </mat-grid-tile>
+      
+      </mat-grid-list>
+    
+    <mat-action-row *ngIf="userIsAuthenticated && userId === post.creator">
         <button mat-button color="accent" (click)="edit(post.id)">EDIT</button>
         <button mat-button color="warn" (click)="onDelete(post.id)">DELETE</button>
       </mat-action-row>
   </mat-expansion-panel>
 </mat-accordion>
-<mat-paginator [length]="totalPosts"  [pageSize]="postsPerPage" [pageSizeOptions]="pageSizeOptions" (page)="onChangedPage($event)"
- *ngIf="posts.length > 0">
-
-</mat-paginator>
 <p  class=" info-text mat-body-1" *ngIf="posts.length <=0 && !isLoading">No Posts added Yet!</p>
+
+
+<!------------------------------------------------------------------------------------------------------------>
+

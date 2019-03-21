@@ -12,47 +12,48 @@ export class PostsService {
   constructor(private http: HttpClient, private router: Router) { }
 
   private posts: Post[] = [];
-  // private postsUpdated = new Subject<Post[]>();
-  private postsUpdated = new Subject<{posts:Post[], postCount:number}>();
+  private postsUpdated = new Subject<Post[]>();
+  // private postsUpdated = new Subject<{posts:Post[], postCount:number}>();
 
-  getPosts(postsPerPage: number, currentPage: number) {
-    // return [...this.posts]; //this will create the new posts array with data without effecting the old one 
-    const queryParams = `?pagesize=${postsPerPage}&page=${currentPage}`
-    this.http.get<{message:string, posts: any, maxPosts: number}>('http://localhost:3000/api/posts' + queryParams)
-    // .pipe(map((postData)=>{
-    //   return postData.posts.map(post=>{
-    //     return {
-    //       title:post.title,
-    //       content:post.content,
-    //       id:post._id,
-    //       imagePath: post.imagePath
-    //     };
-    //   });
-    // }))
-
-    .pipe(map((postData)=>{
-      return { posts: postData.posts.map(post=>{
-        return {
-          title:post.title,
-          content:post.content,
-          id:post._id,
-          imagePath: post.imagePath
-        };
-      }), 
-      maxPosts: postData.maxPosts
-      };
-    }))
-    // .subscribe(transformedPosts=>{
-    //   this.posts =transformedPosts;
-    //   this.postsUpdated.next([...this.posts]);  
-    // });
-
-    .subscribe(transformedPostData=>{
-      this.posts =transformedPostData.posts;
-      this.postsUpdated.next({
-        posts:[...this.posts], 
-        postCount: transformedPostData.maxPosts
-      });  
+  getPosts() {
+    this.http.get<{ message: string, posts: any }>(
+      'http://localhost:3000/api/posts'
+      )
+      .pipe(map((postData)=>{
+        return postData.posts.map(post=>{
+          return {
+        StartDate: post.StartDate,
+        EndDate: post.EndDate,
+        PlannedBandwidth: post.PlannedBandwidth,
+        ActualBandwidth: post.ActualBandwidth,
+        UserStory: post.UserStory,
+        StoryType: post.StoryType,
+        StoryStatus: post.StoryStatus,
+        activity: post.activity,
+        ActivityStatus: post.ActivityStatus,
+        myDate: post.myDate,
+        PlannedStoryPoint: post.PlannedStoryPoint,
+        ActualStoryPoint: post.ActualStoryPoint,
+        ConsumedSP: post.ConsumedSP,
+        variance: post.variance,
+        StoryMaturity: post.StoryMaturity,
+        ActivityStartDate: post.ActivityStartDate,
+        ActivityEndDate: post.ActivityEndDate,
+        Resource: post.Resource,
+        PercentageCompletion: post.PercentageCompletion,
+        AccountableHour: post.AccountableHour,
+        ReasonOfVariance: post.ReasonOfVariance,
+        CorrectiveMeasures: post.CorrectiveMeasures,
+        RiskIfAny: post.RiskIfAny,
+        id: post._id,
+        creator: post.creator
+          }
+        });
+      }))
+    .subscribe(transformedPosts=>{
+      console.log(transformedPosts);
+      this.posts = transformedPosts;
+      this.postsUpdated.next([...this.posts]);
     });
   }
 
@@ -61,87 +62,107 @@ export class PostsService {
   }
 
   getPost(id: string) {
-    return this.http.get<{_id: string, title:string, content: string, imagePath: string}>(
+    // return {...this.posts.find(p=>p.id === id)};
+    return this.http.get<{_id: string, StartDate: string, EndDate:string,PlannedBandwidth:string, ActualBandwidth:string,UserStory:string,StoryType:string, StoryStatus:string,activity:string, ActivityStatus:string, myDate:string, PlannedStoryPoint:string,ActualStoryPoint:string, ConsumedSP:string, variance:string, StoryMaturity: string, ActivityStartDate:string,ActivityEndDate:string, Resource: string, PercentageCompletion:string, AccountableHour: string, ReasonOfVariance:string,CorrectiveMeasures:string, RiskIfAny: string, creator: string }>(
       'http://localhost:3000/api/posts/' + id
       );
   }
 
-  addPosts(title: string, content: string, image:File) {
-    const postData =  new FormData();
-    postData.append("title", title) ;
-    postData.append("content", content) ;
-    postData.append("image", image, title) ;
-    // const post: Post = {
-    //   id: null,
-    //   title: title,
-    //   content: content
-    // };
-    // postId: string
-    this.http.post<{message: string, post: Post}>('http://localhost:3000/api/posts', postData)
-    .subscribe((responseData)=>{
-      console.log(responseData);
-      
-    //   const post = {
-    //     // id: responseData.postId, 
-    //     id: responseData.post.id, 
-    //     title: title, 
-    //     content: content,
-    //     imagePath: responseData.post.imagePath
-    //   }
-    // //  const id = responseData.postId;
-    // //  post.id = id;
-    //   this.posts.push(post);
-    // this.postsUpdated.next([...this.posts]);
-    this.router.navigate(["/"]);
-    });
+  addPosts(StartDate:string, EndDate:string, PlannedBandwidth:string, ActualBandwidth:string,UserStory:string,
+    StoryType:string, StoryStatus:string, activity:string, ActivityStatus:string, myDate:string, PlannedStoryPoint:string,
+    ActualStoryPoint:string, ConsumedSP:string, variance:string, StoryMaturity: string, ActivityStartDate:string,
+    ActivityEndDate:string, Resource: string, PercentageCompletion:string, AccountableHour: string, ReasonOfVariance:string,
+    CorrectiveMeasures:string, RiskIfAny: string){
+      const sprintData: Post = {
+        id:null,
+        StartDate: StartDate,
+        EndDate: EndDate,
+        PlannedBandwidth: PlannedBandwidth,
+        ActualBandwidth: ActualBandwidth,
+        UserStory: UserStory,
+        StoryType: StoryType,
+        StoryStatus: StoryStatus,
+        activity: activity,
+        ActivityStatus: ActivityStatus,
+        myDate: myDate,
+        PlannedStoryPoint: PlannedStoryPoint,
+        ActualStoryPoint: ActualStoryPoint,
+        ConsumedSP: ConsumedSP,
+        variance: variance,
+        StoryMaturity: StoryMaturity,
+        ActivityStartDate: ActivityStartDate,
+        ActivityEndDate: ActivityEndDate,
+        Resource: Resource,
+        PercentageCompletion: PercentageCompletion,
+        AccountableHour: AccountableHour,
+        ReasonOfVariance: ReasonOfVariance,
+        CorrectiveMeasures: CorrectiveMeasures,
+        RiskIfAny: RiskIfAny,
+        creator: null
+      }
+      this.http.post<{message: string, postId: string}>('http://localhost:3000/api/posts', sprintData)
+      .subscribe((responseData)=>{
+        const id = responseData.postId;
+        sprintData.id = id;
+        console.log(responseData);
+        this.posts.push(sprintData);
+        console.log(this.posts);
+        this.postsUpdated.next([...this.posts]);
+        this.router.navigate(["/"]);
+      });  
   }
 
-  updatePost(id: string, title: string, content: string, image: File | string){
-    // const post: Post = { id: id, title:title, content: content, imagePath: null};
-    let postData: Post | FormData;
-    if(typeof(image)=== 'object'){
-      postData = new FormData();
-      postData.append("id", id),
-      postData.append("title", title);
-      postData.append("content", content);
-      postData.append("image", image, title);
-    } else {
-      postData= {
+  updatePost(id: string, StartDate:string, EndDate:string, PlannedBandwidth:string, ActualBandwidth:string,UserStory:string,
+    StoryType:string, StoryStatus:string, activity:string, ActivityStatus:string, myDate:string, PlannedStoryPoint:string,
+    ActualStoryPoint:string, ConsumedSP:string, variance:string, StoryMaturity: string, ActivityStartDate:string,
+    ActivityEndDate:string, Resource: string, PercentageCompletion:string, AccountableHour: string, ReasonOfVariance:string,
+    CorrectiveMeasures:string, RiskIfAny: string) {
+      const post: Post = {
         id: id,
-        title: title,
-        content: content,
-        imagePath: image
+        StartDate: StartDate,
+        EndDate: EndDate,
+        PlannedBandwidth: PlannedBandwidth,
+        ActualBandwidth: ActualBandwidth,
+        UserStory: UserStory,
+        StoryType: StoryType,
+        StoryStatus: StoryStatus,
+        activity: activity,
+        ActivityStatus: ActivityStatus,
+        myDate: myDate,
+        PlannedStoryPoint: PlannedStoryPoint,
+        ActualStoryPoint: ActualStoryPoint,
+        ConsumedSP: ConsumedSP,
+        variance: variance,
+        StoryMaturity: StoryMaturity,
+        ActivityStartDate: ActivityStartDate,
+        ActivityEndDate: ActivityEndDate,
+        Resource: Resource,
+        PercentageCompletion: PercentageCompletion,
+        AccountableHour: AccountableHour,
+        ReasonOfVariance: ReasonOfVariance,
+        CorrectiveMeasures: CorrectiveMeasures,
+        RiskIfAny: RiskIfAny,
+        creator: null
       };
+      this.http.put('http://localhost:3000/api/posts/' + id, post)
+      .subscribe(response=>{
+        console.log(response);
+        const updatedPosts = [...this.posts];
+        const oldPostIndex = updatedPosts.findIndex(p=>p.id === post.id);
+        updatedPosts[oldPostIndex] = post;
+        this.posts = updatedPosts;
+        this.postsUpdated.next([...this.posts]);
+        this.router.navigate(["/"]);
+      })
     }
-    this.http.put('http://localhost:3000/api/posts/' + id, postData)
-    .subscribe((response)=>{
-      // const updatedPosts = [...this.posts];
-      // // const oldPostIndex = updatedPosts.findIndex(p=> p.id === post.id);
-      // const oldPostIndex = updatedPosts.findIndex(p=> p.id === id);
-      // const post: Post = {
-      //   id: id,
-      //   title: title,
-      //   content: content,
-      //   imagePath: ""
-      // }
-      // updatedPosts[oldPostIndex] = post;
-      // this.posts = updatedPosts;
-      // this.postsUpdated.next([...this.posts]);
-      this.router.navigate(["/"]);
-    })
-  }
-
-  // deletePost(postId:string){
-  //   this.http.delete("http://localhost:3000/api/posts/" + postId)
-  //   .subscribe(()=>{
-  //     const updatedPosts = this.posts.filter(post=>post.id !== postId);
-  //     this.posts = updatedPosts;
-  //     this.postsUpdated.next([...this.posts]);
-  //   })
-  // }
 
   deletePost(postId:string){
-    return this.http
-    .delete("http://localhost:3000/api/posts/" + postId)
+     this.http
+    .delete("http://localhost:3000/api/posts/" + postId).subscribe((response)=>{
+      console.log(response);
+      const updatedPosts = this.posts.filter(post=>post.id !== postId);
+          this.posts = updatedPosts;
+          this.postsUpdated.next([...this.posts]);
+    })
   }
 }

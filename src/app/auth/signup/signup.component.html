@@ -1,6 +1,17 @@
 <mat-card>
+    <h2 class="text-center">Sprint Signup</h2>
     <mat-spinner *ngIf="isLoading"></mat-spinner>
   <form (submit)="onSignup(signupForm)" #signupForm="ngForm" *ngIf="!isLoading">
+
+      <mat-form-field>
+          <mat-label>Login as</mat-label>
+          <select matNativeControl required [ngModel]="defaultValue" #loginAsInput = "ngModel" name="role">
+              <option value="User">User</option>
+              <option value="Admin">Admin</option>
+          </select>
+          <mat-error *ngIf="loginAsInput.invalid">Please select a type</mat-error>
+      </mat-form-field>
+
       <mat-form-field>
           <input 
           matInput 
@@ -28,6 +39,40 @@
       <button 
         mat-raised-button 
         color = "primary"
-        type="submit">Signup</button>
+        type="submit" *ngIf="!isLoading">Signup</button>
   </form>
+
+  <p class="text-center"><a href="/login">Already have an account? Login </a></p>
   </mat-card>
+
+
+  <!-- <div class="signup-form">
+      <form (ngSubmit)="onSubmit(register)" #register="ngForm">
+        <h2>Sprint Register</h2>
+        <p class="hint-text">Create your account. It's free and only takes a minute.</p>
+      
+        <div class="form-group star">
+            <dt><label for="role">Choose a Role</label></dt>
+          <select name="role" id="role" class="form-control" [ngModel]="defaultrole"
+                        required>
+                        <option value="User">User</option>
+                        <option value="Admin">Admin</option>
+                      </select>
+        </div>
+        <div class="form-group star">
+            <dt><label for="userName">User Name</label></dt>
+          <input type="text" class="form-control" name="userName" ngModel  required="required">
+      </div>
+        <div class="form-group star">
+            <dt><label for="password">Password</label></dt>
+          <input type="password" id="password" class="form-control" name="password" ngModel  required="required">
+        </div>
+        
+        <div class="form-group">
+          <button type="submit" class="btn btn-success btn-lg btn-block" [disabled]="!register.valid">Register Now</button>
+        </div>
+      </form>
+    
+    </div>
+    
+      <p class="text-center"><a href="/login">Already have an account? Sign in </a></p> -->

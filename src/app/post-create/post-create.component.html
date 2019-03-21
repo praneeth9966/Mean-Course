@@ -1,36 +1,296 @@
-<mat-card>
-    <mat-spinner *ngIf="isLoading"></mat-spinner>
-  <form [formGroup]="form" (submit)="onSavePost()"  *ngIf="!isLoading">
+ <mat-card>
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+<form [formGroup]="form" (submit)="onSavePost()"  *ngIf="!isLoading">
+
+<mat-grid-list class="grid" cols="5" rowHeight="3:1" [gutterSize]="'10px'">
+  
+  <mat-grid-tile>
+    <mat-form-field>
+      <input 
+      matInput 
+      type="date"
+      formControlName="StartDate" 
+      placeholder="Start Date"
+      [ngModel]="post?.StartDate">
+      <mat-error *ngIf="form.get('StartDate').invalid">Please enter a Start Date</mat-error>
+    </mat-form-field>
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+    <mat-form-field>
+        <input 
+        matInput 
+        type="date"
+        formControlName="EndDate" 
+        placeholder="End Date"
+        [ngModel]="post?.EndDate">
+        <mat-error *ngIf="form.get('EndDate').invalid">Please enter a End Date</mat-error>
+      </mat-form-field>
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+    <mat-form-field>
+      <input 
+      matInput 
+      type="number"
+      formControlName="PlannedBandwidth" 
+      placeholder="Planned Bandwidth"
+      [ngModel]="post?.PlannedBandwidth">
+      <mat-error *ngIf="form.get('PlannedBandwidth').invalid">Please enter a Planned Bandwidth</mat-error>
+    </mat-form-field>
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+    <mat-form-field>
+      <input 
+      matInput 
+      type="number"
+      formControlName="ActualBandwidth" 
+      placeholder="Actual Bandwidth"
+      [ngModel]="post?.ActualBandwidth">
+      <mat-error *ngIf="form.get('ActualBandwidth').invalid">Please enter a Actual Bandwidth</mat-error>
+    </mat-form-field>
+  </mat-grid-tile>
+
+  <mat-grid-tile>
       <mat-form-field>
           <input 
           matInput 
           type="text"
-          formControlName="title" 
-          placeholder="Post Title">
-          <mat-error *ngIf="form.get('title').invalid">Please enter a Post Title</mat-error>
+          [ngModel] = "post?.UserStory"
+          formControlName="UserStory" 
+          placeholder="User Story"
+          [ngModel]="post?.UserStory">
+          <mat-error *ngIf="form.get('UserStory').invalid">Please enter a User Story</mat-error>
         </mat-form-field>
+  </mat-grid-tile>
 
-        <div>
-          <button mat-stroked-button type="button" (click)="filePicker.click()">Pick Image</button>
-          <input type="file" #filePicker (change)="onImagePicked($event)">
-        </div>
-
-        <div class="image-preview" *ngIf="imagePreview!=='' && imagePreview">
-          <img [src]="imagePreview" [alt]="form.value.title">
-        </div>
-
+  <mat-grid-tile>
       <mat-form-field>
-        <textarea 
-        matInput 
-        rows="4"
-        formControlName="content"         
-        placeholder="Post Content">
-      </textarea>
-      <mat-error *ngIf="form.get('content').invalid">Please enter a Post Content</mat-error>
+          <mat-label>Story Type</mat-label>
+          <select matNativeControl required formControlName="StoryType" [ngModel]="post?.StoryType">
+                    <option value="bug">Bug</option>
+                    <option value="story">Story</option>
+                    <option value="task">Task</option>
+                    <option value="subtask">Sub-task</option>
+                    <option value="epic">Epic</option>
+          </select>
       </mat-form-field>
-      <button 
-        mat-raised-button 
-        color = "primary"
-        type="submit">Post Save</button>
-  </form>
-</mat-card>
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+      <mat-form-field>
+          <mat-label>Story Status</mat-label>
+          <select matNativeControl required formControlName="StoryStatus" [ngModel]="post?.StoryStatus">
+            <option value="done">Done</option>
+            <option value="uat">UAT</option>
+            <option value="peerReview">Peer Review</option>
+            <option value="deskCheck">Desk check</option>
+            <option value="open">Open</option>
+            <option value="analysis">Analysis</option>
+            <option value="readyForDev">Ready for dev</option>
+            <option value="inProgress">In Progress</option>
+          </select>
+      </mat-form-field>
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+      <mat-form-field>
+          <mat-label>Activity/Task</mat-label>
+          <select matNativeControl required formControlName="activity" [ngModel]="post?.activity">
+            <option value="anlysis">Anlysis</option>
+                    <option value="build">Build</option>
+                    <option value="unitTesting">Unit Testing</option>
+                    <option value="testScriptCreation">Test Script Creation</option>
+                    <option value="testing">Testing</option>
+                    <option value="rework">Rework</option>
+                    <option value="idle">Idle</option>
+                    <option value="deployment">Deployment</option>
+          </select>
+      </mat-form-field>
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+      <mat-form-field>
+          <mat-label>Activity Status</mat-label>
+          <select matNativeControl required formControlName="ActivityStatus" [ngModel]="post?.ActivityStatus">
+            <option value="anlysis">Anlysis</option>
+            <option value="notStarted">Not Started</option>
+            <option value="awaitingClarification">Awaiting Clarification</option>
+            <option value="inProgress">In Progress</option>
+            <option value="complete">Complete</option>
+          </select>
+      </mat-form-field>
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+      <mat-form-field>
+          <input 
+          matInput 
+          type="date"
+          formControlName="myDate" 
+          placeholder="Date"
+          [ngModel]="post?.myDate">
+          <mat-error *ngIf="form.get('myDate').invalid">Please enter a Date</mat-error>
+        </mat-form-field>
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+      <mat-form-field>
+          <input 
+          matInput 
+          type="number"
+          formControlName="PlannedStoryPoint" 
+          placeholder="Planned Story Point"
+          [ngModel]="post?.PlannedStoryPoint">
+          <mat-error *ngIf="form.get('PlannedStoryPoint').invalid">Please enter a Planned Story Point</mat-error>
+        </mat-form-field>
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+      <mat-form-field>
+          <input 
+          matInput 
+          type="number"
+          formControlName="ActualStoryPoint" 
+          placeholder="ActualStoryPoint"
+          [ngModel]="post?.ActualStoryPoint">
+          <mat-error *ngIf="form.get('ActualStoryPoint').invalid">Please enter a Actual Story Point</mat-error>
+        </mat-form-field>
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+      <mat-form-field>
+          <input 
+          matInput 
+          type="number"
+          formControlName="ConsumedSP" 
+          placeholder="ConsumedSP"
+          [ngModel]="post?.ConsumedSP">
+          <mat-error *ngIf="form.get('ConsumedSP').invalid">Please enter a ConsumedSP</mat-error>
+        </mat-form-field>
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+      <mat-form-field>
+          <input 
+          matInput 
+          type="number"
+          formControlName="variance" 
+          placeholder="Variance(%)"
+          [ngModel]="post?.variance">
+          <mat-error *ngIf="form.get('variance').invalid">Please enter a Variance(%)</mat-error>
+        </mat-form-field>
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+      <mat-form-field>
+          <mat-label>Story Maturity</mat-label>
+          <select matNativeControl required formControlName="StoryMaturity" [ngModel]="post?.StoryMaturity">
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select>
+      </mat-form-field>
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+      <mat-form-field>
+          <input 
+          matInput 
+          type="date"
+          formControlName="ActivityStartDate" 
+          placeholder="Activity Start Date"
+          [ngModel]="post?.ActivityStartDate">
+          <mat-error *ngIf="form.get('ActivityStartDate').invalid">Please enter a Activity Start Date</mat-error>
+        </mat-form-field>
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+      <mat-form-field>
+          <input 
+          matInput 
+          type="date"
+          formControlName="ActivityEndDate" 
+          placeholder="Activity End Date"
+          [ngModel]="post?.ActivityEndDate">
+          <mat-error *ngIf="form.get('ActivityEndDate').invalid">Please enter a Activity End Date</mat-error>
+        </mat-form-field>
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+      <mat-form-field>
+          <input 
+          matInput 
+          type="text"
+          formControlName="Resource" 
+          placeholder="Resource"
+          [ngModel]="post?.Resource">
+          <mat-error *ngIf="form.get('Resource').invalid">Please enter a Resource</mat-error>
+        </mat-form-field>
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+      <mat-form-field>
+          <input 
+          matInput 
+          type="number"
+          formControlName="PercentageCompletion" 
+          placeholder="PercentageCompletion"
+          [ngModel]="post?.PercentageCompletion">
+          <mat-error *ngIf="form.get('PercentageCompletion').invalid">Please enter a Percentage Completion</mat-error>
+        </mat-form-field>
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+      <mat-form-field>
+          <mat-label>Accountable Hour</mat-label>
+          <select matNativeControl required formControlName="AccountableHour" [ngModel]="post?.AccountableHour">
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select>
+      </mat-form-field>
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+      <mat-form-field>
+          <input 
+          matInput 
+          type="text"
+          formControlName="ReasonOfVariance" 
+          placeholder="ReasonOfVariance"
+          [ngModel]="post?.ReasonOfVariance">
+          <mat-error *ngIf="form.get('ReasonOfVariance').invalid">Please enter a ReasonOfVariance</mat-error>
+        </mat-form-field>
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+      <mat-form-field>
+          <input 
+          matInput 
+          type="text"
+          formControlName="CorrectiveMeasures" 
+          placeholder="CorrectiveMeasures"
+          [ngModel]="post?.CorrectiveMeasures">
+          <mat-error *ngIf="form.get('CorrectiveMeasures').invalid">Please enter a CorrectiveMeasures</mat-error>
+        </mat-form-field>
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+      <mat-form-field>
+          <input 
+          matInput 
+          type="text"
+          formControlName="RiskIfAny" 
+          placeholder="RiskIfAny"
+          [ngModel]="post?.RiskIfAny">
+          <mat-error *ngIf="form.get('RiskIfAny').invalid">Please enter a RiskIfAny</mat-error>
+        </mat-form-field>
+  </mat-grid-tile>
+
+</mat-grid-list>
+<button 
+      mat-raised-button 
+      color = "primary"
+      type="submit">Post Save</button>
+</form>
+ </mat-card>

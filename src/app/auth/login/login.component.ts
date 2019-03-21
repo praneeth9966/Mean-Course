@@ -10,6 +10,8 @@ import { AuthService } from '../auth.service';
 export class LoginComponent implements OnInit {
 isLoading = false;
 
+defaultValue = '';
+
   constructor(public authService: AuthService) { }
 
   ngOnInit() {
@@ -19,7 +21,8 @@ isLoading = false;
     if(form.invalid){
       return;
     }
-    this.authService.login(form.value.email, form.value.password);
+    this.isLoading = true;
+    this.authService.login(form.value.role ,form.value.email, form.value.password);
   }
 
 }

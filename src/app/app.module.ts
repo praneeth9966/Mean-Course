@@ -13,13 +13,15 @@ import { MatInputModule,
           MatToolbarModule,
           MatExpansionModule,
           MatProgressSpinnerModule,
-          MatPaginatorModule} from '@angular/material';
+          MatPaginatorModule,
+          MatSelectModule,
+          MatGridListModule} from '@angular/material';
 import { HeaderComponent } from './header/header.component';
 import { PostListComponent } from './post-list/post-list.component';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
-import {AuthInterceptor} from './auth/auth-interceptor';
-import { from } from 'rxjs';
+// import {AuthInterceptor} from './auth/auth-interceptor';
+import { AuthInterceptor } from './auth/auth-interceptor';
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,9 +45,14 @@ import { from } from 'rxjs';
     MatExpansionModule,
     MatProgressSpinnerModule,
     MatPaginatorModule,
+    MatSelectModule,
+    MatGridListModule,
     HttpClientModule
   ],
-  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi:true}],
+  // {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi:true}
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

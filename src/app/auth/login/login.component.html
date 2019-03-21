@@ -1,6 +1,17 @@
 <mat-card>
+   <h2 class="text-center">Sprint Login</h2>
   <mat-spinner *ngIf="isLoading"></mat-spinner>
 <form (submit)="onLogin(loginForm)" #loginForm="ngForm" *ngIf="!isLoading">
+
+    <mat-form-field>
+        <mat-label>Login as</mat-label>
+        <select matNativeControl required [ngModel]="defaultValue" #loginAsInput = "ngModel" name="role">
+            <option value="User">User</option>
+            <option value="Admin">Admin</option>
+        </select>
+        <mat-error *ngIf="loginAsInput.invalid">Please select a type</mat-error>
+    </mat-form-field>
+
     <mat-form-field>
         <input 
         matInput 
@@ -28,6 +39,35 @@
     <button 
       mat-raised-button 
       color = "primary"
-      type="submit">Login</button>
+      type="submit" *ngIf="!isLoading">Login</button>
 </form>
+
+<p class="text-center"><a href="/signup">Create an Account</a></p>
 </mat-card>
+
+<!-- <div class="login-form">
+    <form (ngSubmit)="onSignIn(login)" #login="ngForm">
+        <h2 class="text-center">Sprint SignIn</h2>
+        <div class="form-group star">
+        <dt><label for="role">Login as</label></dt>
+        <select name="role" id="role" class="form-control" [ngModel]="defaultrole"
+                    required>
+                    <option value="User">User</option>
+                    <option value="Admin">Admin</option>
+                  </select>
+                </div>             
+        <div class="form-group star">
+                <dt><label for="userName">User Name</label></dt>
+              <input type="text" class="form-control" name="userName" ngModel  required="required">
+        </div>
+        <div class="form-group star">
+                <dt><label for="password">Password</label></dt>
+              <input type="password" id="password" class="form-control" name="password" ngModel  required="required">
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block" [disabled]="!login.valid">Log in</button>
+        </div>
+        
+    </form>
+    <p class="text-center"><a href="/register">Create an Account</a></p>
+</div> -->

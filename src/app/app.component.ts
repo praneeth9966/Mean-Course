@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from './auth/auth.service';
 // import {Post} from './post.model'
 
 @Component({
@@ -6,10 +7,12 @@ import { Component } from '@angular/core';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'mean-course';
-  // storedPosts: Post[] = [];
-  // onPostAdded(post){
-  //   this.storedPosts.push(post);
-  // }
+  
+  constructor(private authService: AuthService) {} 
+
+  ngOnInit() {
+    this.authService.autoAuthUser();
+  }
 }
