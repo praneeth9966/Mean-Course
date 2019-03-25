@@ -4,6 +4,10 @@ import {Subject} from 'rxjs';
 import {HttpClient} from '@angular/common/http'
 import {map} from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { environment } from '../environments/environment';
+
+const BACKEND_URL = environment.apiUrl + "/posts/";
+
 @Injectable({
   providedIn: 'root'
 })
@@ -17,7 +21,7 @@ export class PostsService {
 
   getPosts() {
     this.http.get<{ message: string, posts: any }>(
-      'http://localhost:3000/api/posts'
+      BACKEND_URL
       )
       .pipe(map((postData)=>{
         return postData.posts.map(post=>{
@@ -64,7 +68,7 @@ export class PostsService {
   getPost(id: string) {
     // return {...this.posts.find(p=>p.id === id)};
     return this.http.get<{_id: string, StartDate: string, EndDate:string,PlannedBandwidth:string, ActualBandwidth:string,UserStory:string,StoryType:string, StoryStatus:string,activity:string, ActivityStatus:string, myDate:string, PlannedStoryPoint:string,ActualStoryPoint:string, ConsumedSP:string, variance:string, StoryMaturity: string, ActivityStartDate:string,ActivityEndDate:string, Resource: string, PercentageCompletion:string, AccountableHour: string, ReasonOfVariance:string,CorrectiveMeasures:string, RiskIfAny: string, creator: string }>(
-      'http://localhost:3000/api/posts/' + id
+      BACKEND_URL + id
       );
   }
 
@@ -100,7 +104,7 @@ export class PostsService {
         RiskIfAny: RiskIfAny,
         creator: null
       }
-      this.http.post<{message: string, postId: string}>('http://localhost:3000/api/posts', sprintData)
+      this.http.post<{message: string, postId: string}>(BACKEND_URL, sprintData)
       .subscribe((responseData)=>{
         const id = responseData.postId;
         sprintData.id = id;
@@ -144,7 +148,7 @@ export class PostsService {
         RiskIfAny: RiskIfAny,
         creator: null
       };
-      this.http.put('http://localhost:3000/api/posts/' + id, post)
+      this.http.put(BACKEND_URL + id, post)
       .subscribe(response=>{
         console.log(response);
         const updatedPosts = [...this.posts];
@@ -158,7 +162,7 @@ export class PostsService {
 
   deletePost(postId:string){
      this.http
-    .delete("http://localhost:3000/api/posts/" + postId).subscribe((response)=>{
+    .delete(BACKEND_URL + postId).subscribe((response)=>{
       console.log(response);
       const updatedPosts = this.posts.filter(post=>post.id !== postId);
           this.posts = updatedPosts;

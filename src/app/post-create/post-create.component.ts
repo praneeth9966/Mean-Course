@@ -1,15 +1,17 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, OnDestroy } from '@angular/core';
 import { Post } from '../post.model'
 import { NgForm, FormGroup, FormControl, Validators } from '@angular/forms';
 import { PostsService } from '../posts.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-post-create',
   templateUrl: './post-create.component.html',
   styleUrls: ['./post-create.component.scss']
 })
-export class PostCreateComponent implements OnInit {
+export class PostCreateComponent implements OnInit, OnDestroy {
 
   enteredTitle = '';
   enteredContent = '';
@@ -18,10 +20,13 @@ export class PostCreateComponent implements OnInit {
   public post: Post;
   isLoading = false;
   form: FormGroup;
-
-  constructor(public postsService: PostsService, public route: ActivatedRoute) { }
+  private authStatusSub: Subscription;
+  constructor(public postsService: PostsService, public route: ActivatedRoute, private authService:AuthService) { }
 
   ngOnInit() {
+    this.authStatusSub = this.authService.getAuthStatusListener().subscribe(authStatus =>{
+      this.isLoading = false;
+    });
     this.form = new FormGroup({
       'StartDate': new FormControl(null, {
         validators: [Validators.required]
@@ -133,6 +138,7 @@ export class PostCreateComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
+    // this.isLoading = true;
     if (this.mode === "create") {
       this.postsService.addPosts(this.form.value.StartDate, this.form.value.EndDate, this.form.value.PlannedBandwidth,
         this.form.value.ActualBandwidth, this.form.value.UserStory, this.form.value.StoryType, this.form.value.StoryStatus, this.form.value.activity,
@@ -154,6 +160,10 @@ export class PostCreateComponent implements OnInit {
       );
     }
     this.form.reset();
+  }
+
+  ngOnDestroy() {
+    this.authStatusSub.unsubscribe();
   }
 
 }

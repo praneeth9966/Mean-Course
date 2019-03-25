@@ -53,6 +53,9 @@ export class PostListComponent implements OnInit, OnDestroy{
   onDelete(postId: string) {
     this.isLoading = true;
     this.postsService.deletePost(postId);
+    // this.authStatusSub = this.authService.getAuthStatusListener().subscribe(isAuthenticated=>{
+    //   this.isLoading = false;
+    // })
   }
 
   ngOnDestroy() {

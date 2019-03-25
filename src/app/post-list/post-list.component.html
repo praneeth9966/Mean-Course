@@ -273,7 +273,8 @@
         </mat-grid-tile>
       
       </mat-grid-list>
-    
+
+      <!-- *ngIf="userIsAuthenticated && userId === post.creator" -->
     <mat-action-row *ngIf="userIsAuthenticated && userId === post.creator">
         <button mat-button color="accent" (click)="edit(post.id)">EDIT</button>
         <button mat-button color="warn" (click)="onDelete(post.id)">DELETE</button>

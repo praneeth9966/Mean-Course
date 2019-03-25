@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
-const postSchema = mongoose.Schema({
+mongoose.connect('mongodb://localhost:27017/sprintData',{useNewUrlParser:true});
+
+var mongoSchema=mongoose.Schema;
+
+const postSchema = mongoSchema({
     StartDate: { type:String, required:true },
     EndDate: { type:String, required:true },
     PlannedBandwidth: { type:String},
